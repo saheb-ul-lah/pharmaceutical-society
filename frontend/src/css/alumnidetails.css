@@ -1,0 +1,112 @@
+* {
+  font-family: montserrat;
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.alumni-details h5 {
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  margin: 10px 0;
+  width: 100vw;
+  margin-left:-5px;
+  /* border:2px solid green; */
+}
+.alumni-details  .card-body{
+  height: 100%;
+}
+.main-container{
+  display: flex;
+  flex-direction:row;
+  justify-content:space-between;
+  align-items:center;
+  /* gap: 80px; */
+  width:100vw;
+  padding:0 100px;
+  /* border:2px solid black; */
+}
+
+.details-text{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* gap:20px; */
+}
+.details-text p{
+    background-color: antiquewhite;
+    padding: 5px 5px;
+    border-radius: 5px;
+    width:400px;
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    padding:5px 10px;
+}
+.details-text p span{
+  margin-left: 20px;
+}
+#card-image {
+  /* width: 286px;
+    height: 180px; */
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin:0 40px 0 0;
+  /* border: 2px solid black; */
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+.social-div{
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 250px;
+  /* background-color: aliceblue; */
+  border-radius: 10px;
+  /* border: 1px solid rgb(238, 236, 236); */
+  margin-top: 10px;
+}
+.social-icon{
+  font-size: 20px;
+  /* margin: 10px; */
+}
+
+@media (max-width: 768px) {
+  .main-container{
+    flex-direction:column;
+    justify-content:center;
+    /* gap:5px; */
+    padding: 0;
+  }
+  .alumni-details h5 {
+    font-size:15px;
+  }
+  #card-image {
+    /* width: 286px;
+      height: 180px; */
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .details-text p{
+    font-size:12px;
+    width:90%;
+  }
+  .social-div{
+    /* padding: 2px 5px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    border-radius: 5px;
+    margin: 10px;
+  }
+  .social-icon{
+    font-size: 18px;
+    /* margin: 10px; */
+  }
+}

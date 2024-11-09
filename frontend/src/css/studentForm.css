@@ -1,0 +1,128 @@
+/* studentForm.css */
+
+/* General styling for the form container */
+.student-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .student-form h1 {
+    text-align: center;
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .student-form p {
+    text-align: center;
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+  
+  /* Section headers */
+  .student-form h2 {
+    color: #333;
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  
+  /* Form group styling */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  /* Input fields */
+  .student-form input,
+  .student-form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .student-form input[type="file"] {
+    padding: 0;
+  }
+  
+  .student-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    min-height: 100px;
+  }
+  
+  .student-form small {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+  }
+  
+  /* Error messages */
+  .student-form span {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  /* Submit button styling */
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive layout adjustments */
+  @media (max-width: 768px) {
+    .student-form {
+      padding: 15px;
+    }
+  
+    .student-form h1 {
+      font-size: 24px;
+    }
+  
+    .student-form h2 {
+      font-size: 18px;
+    }
+  
+    .student-form input,
+    .student-form select,
+    .student-form textarea {
+      font-size: 16px;
+    }
+  
+    .submit-btn {
+      font-size: 14px;
+    }
+  }
+  

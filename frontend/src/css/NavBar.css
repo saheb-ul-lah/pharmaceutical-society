@@ -1,0 +1,118 @@
+NavBar{
+    min-height: 80px;
+}
+/* General styling */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    background-color: #0c133b;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .navbar-nav .nav-link {
+    color: antiquewhite !important;
+    font-size: 1rem;
+    padding: 10px 20px;
+    text-transform: capitalize;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .navbar .navbar-nav .nav-link:hover {
+    background-color: blue;
+    color: yellow;
+    border-radius: 15px;
+  }
+  
+  .navbar .navbar-nav .nav-link.active {
+    background-color: blue;
+    color: yellow;
+    font-weight: 600;
+  }
+  
+  .navbar .navbar-brand img {
+    border-radius: 50%;
+  }
+  
+  .navbar .navbar-nav .nav-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .navbar-nav .nav-link,
+  .navbar .navbar-nav .nav-item {
+    display: inline-block;
+  }
+  
+  .navbar .navbar-nav {
+    flex-grow: 1;
+    justify-content: space-around;
+  }
+  
+  .navbar-toggler {
+    border-color: #fff;
+  }
+  
+  .navbar-collapse {
+    justify-content: space-between;
+  }
+  
+  /* Authenticated user dropdown */
+  .navbar-nav .nav-item .nav-link {
+    font-weight: 600;
+  }
+  
+  /* Button styles */
+  button {
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(174, 106, 106);
+    color: antiquewhite;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: rgb(139, 89, 89);
+  }
+  
+  /* Dropdown menu */
+  .navbar .nav-dropdown .dropdown-menu {
+    background-color: #0c133b;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .nav-dropdown .dropdown-item {
+    color: antiquewhite !important;
+    padding: 10px 20px;
+    text-transform: capitalize;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .navbar .nav-dropdown .dropdown-item:hover {
+    background-color: blue;
+    color: yellow;
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 992px) {
+    .navbar-nav {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar-nav .nav-item {
+      margin: 5px 0;
+    }
+  
+    .navbar-collapse {
+      text-align: center;
+    }
+  }
+  

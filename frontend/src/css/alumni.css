@@ -1,0 +1,23 @@
+.alumni-card {
+    transition: box-shadow 0.3s;
+}
+
+.alumni-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.card-body{
+    height:auto;
+    /* font-size: 14px; */
+    /* height: 250px; */
+}
+
+.card-image {
+    /* width: auto;
+    height: auto; */
+    width: 100px;
+    height: 250px;
+    object-fit: cover;
+}
+/* .pagination{
+
+} */

@@ -1,0 +1,25 @@
+/* customScrollbar.css */
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent; /* Make background transparent */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Make background transparent */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #555;
+
+    border-radius: 10px; /* Add border radius */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(12,19,59);
+  }
+  

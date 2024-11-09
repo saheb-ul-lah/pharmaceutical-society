@@ -1,0 +1,12 @@
+/* Add this CSS to your slider.css file or any global CSS file */
+
+/* Testimonials Slider Next and Previous Buttons */
+.carousel-control-prev, .carousel-control-next {
+  color: black; /* Set the color to black */
+  opacity: 1; /* Ensure the buttons are fully visible */
+}
+
+/* Testimonials Slider Next and Previous Buttons on Hover */
+.carousel-control-prev:hover, .carousel-control-next:hover {
+  color: black; /* Set the color to black on hover */
+}

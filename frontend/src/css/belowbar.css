@@ -1,0 +1,16 @@
+#nametag{
+    text-decoration: none;
+}
+#textbar{
+    font-size: smaller;
+    color: white;
+}
+#textbar a:hover{
+    filter: drop-shadow(0 0 0.75rem black);
+}
+.FooterMain a{
+    text-decoration: none;
+}
+.FooterMain a:hover{
+    text-decoration:underline;
+}
