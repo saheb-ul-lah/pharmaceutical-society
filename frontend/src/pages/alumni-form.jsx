@@ -177,7 +177,7 @@ const AlumniForm = () => {
                     control={control}
                     name="email"
                     render={({ field }) => <input id="email" {...field} type="email" placeholder="Enter your email address" />}
-                    rules={{ required: 'Email is required' }}
+                    rules={{ required: "Email is required" }}
                   />
                   {errors.email && <span>{errors.email.message}</span>}
                 </div>

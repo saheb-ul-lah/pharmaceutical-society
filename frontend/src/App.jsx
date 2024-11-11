@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './css/customScrollbar.css';
 import { Container, Row, Col, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import AdminDashboard from "./pages/AdminDashboard";
 function PageNotFound() {
   return (
     <Container className="my-5">
@@ -53,6 +54,7 @@ function App() {
                 <Route path="/team-section" element={<TeamSection />} />
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/alumniform" element={<AlumniForm />} />
+                <Route path="/secret/admin" element={<AdminDashboard />} />
                 <Route path="/studentform" element={<StudentForm />} />
                 <Route path="/posts" element={<Posts />} />
                 <Route path="*" element={<PageNotFound />} />
