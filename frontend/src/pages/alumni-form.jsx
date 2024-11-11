@@ -3,7 +3,7 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useForm, Controller } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import toast, {Toaster} from 'react-hot-toast'
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/alumniForm.css'; // Ensure this CSS file exists
 
@@ -66,9 +66,45 @@ const AlumniForm = () => {
     setDegrees(degrees.filter((_, i) => i !== index));
   };
 
-  const onSubmit = (data) => {
-    console.log('Form data submitted: ', data);
-    // Submit form data using axios.post
+  const onSubmit = async (data) => {
+    // Create FormData to handle file and form fields
+    const formData = new FormData();
+
+    // Append all form fields
+    for (const [key, value] of Object.entries(data)) {
+      formData.append(key, value);
+    }
+
+    // Add degrees dynamically
+    degrees.forEach((degree, index) => {
+      const degreeValue = data[`degree-${index}`];
+      const yearValue = data[`year-${index}`];
+
+      formData.append(`degrees[${index}][degree]`, degreeValue);
+      formData.append(`degrees[${index}][year]`, yearValue);
+    });
+
+
+    // Append profile picture if available
+    const profilePicture = document.getElementById('profile-picture').files[0];
+    if (profilePicture) {
+      formData.append('profilePicture', profilePicture);
+    }
+
+    try {
+      const response = await axios.post(
+          'http://localhost:4250/api/alumniform',
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+      if (response.status === 201) {
+        toast.success("Form submitted successfully!");
+      }
+    } catch (error) {
+      console.error(error.message);
+      console.log(formData)
+      toast.error("Failed to submit the form. Please try again later.");
+    }
   };
 
   if (!isAuthenticated) {
@@ -112,6 +148,10 @@ const AlumniForm = () => {
   // Main form content
   return (
     <Container fluid className="mt-5">
+      <Toaster
+          position="top-center"
+          reverseOrder={false}
+      />
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
           <div className="alumni-form">
