@@ -44,10 +44,10 @@ export default function BelowBar() {
                     <MDBRow className='mt-3'>
                         <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4' style={{ fontSize: "18px", color: "#0c133b" }}>
-                                <MDBIcon fas icon="university" /> &nbsp;CSJMC DU
+                                <MDBIcon fas icon="university" /> &nbsp;Pharmaceutical Society, Dibrugarh University
                             </h6>
                             <p style={{ fontSize: "16px", fontWeight: "500" }}>
-                                &copy;&nbsp;Centre for Studies in Journalism & Mass Communication
+                                &copy;&nbsp;Pharmaceutical Society
                             </p>
                         </MDBCol>
 
@@ -78,12 +78,12 @@ export default function BelowBar() {
                             <p>
                                 <MDBIcon icon="home" className="me-2" />
                                 <a href="https://maps.app.goo.gl/wWHJG7H3w6JL9xUZ7" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", fontWeight: "600", color: "grey" }}>
-                                    Centre For Studies In Journalism And Mass Communication, Dibrugarh University, Dibrugarh, Assam 786004
+                                    Pharmaceutical Society, Dibrugarh University, Dibrugarh, Assam 786004
                                 </a>
                             </p>
                             <p>
-                                <a href="mailto:ducsjmc@gmail.com" style={{ textDecoration: "none", fontWeight: "600", color: "grey" }}>
-                                    <MDBIcon icon="envelope" className="me-3" /> ducsjmc@gmail.com
+                                <a href="mailto:pharmsociety@dibru.ac.in" style={{ textDecoration: "none", fontWeight: "600", color: "grey" }}>
+                                    <MDBIcon icon="envelope" className="me-3" /> pharmsociety@dibru.ac.in
                                 </a>
                             </p>
                         </MDBCol>
