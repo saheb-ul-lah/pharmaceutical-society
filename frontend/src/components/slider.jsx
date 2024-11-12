@@ -66,7 +66,7 @@ function Slider() {
               Welcome back {isAuthenticated ? <span style={{ color: "yellow" }}>{user.given_name}</span> : null}!
             </h3>
             <p style={{ textShadow: "2px 2px 3px #000000", fontFamily: "Montserrat", fontSize: "20px", marginBottom: "50px" }}>
-              Centre for Studies in Journalism & Mass Communication's <br /> Alumni Community
+              Pharmaceutical Society, Dibrugarh University <br /> Alumni & Student Community
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -82,7 +82,7 @@ function Slider() {
               Welcome back {isAuthenticated ? <span style={{ color: "yellow" }}>{user.given_name}</span> : null}!
             </h3>
             <p style={{ textShadow: "2px 2px 3px #000000", fontFamily: "Montserrat", fontSize: "20px", marginBottom: "50px" }}>
-              Centre for Studies in Journalism & Mass Communication's <br /> Alumni Community
+            Pharmaceutical Society, Dibrugarh University <br /> Alumni & Student Community
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -98,7 +98,7 @@ function Slider() {
               Welcome back {isAuthenticated ? <span style={{ color: "yellow" }}>{user.given_name}</span> : null}!
             </h3>
             <p style={{ textShadow: "2px 2px 3px #000000", fontFamily: "Montserrat", fontSize: "20px", marginBottom: "50px" }}>
-              Centre for Studies in Journalism & Mass Communication's <br /> Alumni Community
+            Pharmaceutical Society, Dibrugarh University <br /> Alumni & Student Community
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -114,7 +114,7 @@ function Slider() {
               Welcome back {isAuthenticated ? <span style={{ color: "yellow" }}>{user.given_name}</span> : null}!
             </h3>
             <p style={{ textShadow: "2px 2px 3px #000000", fontFamily: "Montserrat", fontSize: "20px", marginBottom: "50px" }}>
-              Centre for Studies in Journalism & Mass Communication's <br /> Alumni Community
+            Pharmaceutical Society, Dibrugarh University <br /> Alumni & Student Community
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -127,7 +127,7 @@ function Slider() {
               ABOUT US
             </h2>
             <p style={{ fontFamily: "Josefin Sans", fontSize: "16px" }}>
-              The Centre for Studies in Journalism and Mass Communication, Dibrugarh University is one of the leading institutions of higher learning in the field of communication and media studies in India. The Centre offers M.A in Mass Communication (MAMC) course with a provision for specialization in print, electronic, new media and public affairs and a mandatory internship programme. With faculty trained in reputed institutions and well-equipped studios and computer laboratories, it has been successful in carving a niche for itself in the field of Media and Communication education since its inception in 2008. Its state-of-the-art infrastructure provides the students balanced inputs in both theory and practice of mass communication. Eminent scholars, journalists, filmmakers, video professionals, corporate communication specialists, and leading academicians constitute a panel of eminent visiting faculty who offer quality education to the students from across India and those from abroad enrolled under Indian Council for Cultural Relations – African Scholarship Scheme.
+            The "Pharmaceutical Society, Dibrugarh University" was founded in 1986 in the Department of Pharmaceutical Sciences, Dibrugarh University as a professional body of pharmacy by the teachers, and students of the department. Since its establishment, the society has been serving as a professional forum for organizing various professional and socio-cultural activities. 
             </p>
             <Link
               to="/about"
