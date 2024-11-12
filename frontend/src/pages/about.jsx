@@ -2,11 +2,11 @@ import React from 'react';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 
 const objectives = [
-  "To enable the learner to develop sound theoretical knowledge and professional skills and competencies in media and communication studies.",
-  "To train the learners with equipment and infrastructure to understand the converging world of communications and adapt to the latest developments in the field.",
-  "To enable the learners to undergo thorough internships that afford them hands-on training and an opportunity to work with the leading professionals of the region and nation.",
-  "To enable the learners to implement ethical behaviors in their own professional practice of mass communication and usage of mass media tools.",
-  "To enable the learners to receive guidance from a diverse field of faculties with a mix of academic and professional backgrounds to ensure excellence in the field of communication and journalism."
+  "To foster a strong theoretical foundation and professional skills in pharmacy students.",
+  "To provide students with access to up-to-date equipment and resources in pharmaceutical sciences.",
+  "To facilitate internships that offer hands-on training and opportunities to work with leading professionals.",
+  "To encourage ethical practices in the professional application of pharmaceutical knowledge.",
+  "To ensure students receive guidance from a diverse faculty with both academic and professional expertise in pharmaceutical sciences."
 ];
 
 const CardContent = ({ title, text, list }) => (
@@ -31,12 +31,12 @@ const CardContent = ({ title, text, list }) => (
 function About() {
   return (
     <Container className="mt-5">
-      <h2 className="text-center mb-4">About the Centre</h2>
+      <h2 className="text-center mb-4">About the Pharmaceutical Society</h2>
       
       <Row>
         <Col>
           <CardContent
-            text="The Centre for Studies in Journalism and Mass Communication, Dibrugarh University, is one of the leading institutions of higher learning in the field of communication and media studies in India. The Centre offers an M.A in Mass Communication (MAMC) course with specializations in print, electronic, new media, and public affairs. With faculty trained in reputed institutions and well-equipped studios and computer laboratories, the Centre has established itself since 2008. It provides balanced inputs in both theory and practice of mass communication, supported by a panel of visiting faculty, including scholars, journalists, and filmmakers."
+            text="The mission of the Pharmaceutical Society, Dibrugarh University, is to support the professional development of pharmacy students through networking, mentorship, and access to resources. The Society emphasizes educational workshops, seminars, discussions, and guest lectures to keep members updated with the latest advancements in pharmacy. In its commitment to public health, the Society organizes healthcare camps, counseling programs, and awareness campaigns focused on drug safety, disease prevention, and healthcare education."
           />
         </Col>
       </Row>
@@ -51,7 +51,7 @@ function About() {
         <Col>
           <CardContent
             title="International Collaboration"
-            text="The Centre is currently engaged with UNICEF for the multidisciplinary master's programme on Communication for Sanitation, Hygiene and Health (CSH&H). This joint initiative with UNICEF is designed to train communication experts for public health promotion. It enables learners to effectively communicate Health, Hygiene, and Sanitation concepts, preparing them as professional change agents for community development."
+            text="The Centre collaborates with international institutions for research and educational exchanges. It actively participates in initiatives that strengthen public health education, enabling students to develop communication and research skills critical to pharmaceutical and healthcare industries."
           />
         </Col>
       </Row>
@@ -60,7 +60,7 @@ function About() {
         <Col>
           <CardContent
             title="Departmental Activities"
-            text="Students produce radio programs and documentary films as part of their curriculum. Internship opportunities are arranged in reputed media organizations to give students exposure to various media practices. The Centre regularly screens award-winning films and documentaries, invites guest speakers, and organizes workshops and seminars to broaden students' knowledge and skills."
+            text="The Society hosts workshops, seminars, and guest lectures, enhancing practical knowledge in pharmacy. Internship opportunities at prominent pharmaceutical organizations are also facilitated to provide real-world exposure. Activities are designed to broaden students' understanding and skill sets within the pharmaceutical field."
           />
         </Col>
       </Row>
@@ -69,7 +69,7 @@ function About() {
         <Col>
           <CardContent
             title="Placement"
-            text="The Centre has a strong placement record with alumni in various public and private organizations, media industries, and educational institutions. Recent recruiters include UNICEF, Indian Oil Corporation, Hindustan Unilever, All India Radio, Radio Mirchi, News Live, The Assam Tribune, GenPac, The Telegraph, and Pratidin Time. The Centre coordinates with Dibrugarh University's Placement Cell to assist students in their career placement."
+            text="The Society maintains strong connections with various healthcare and pharmaceutical organizations to assist students in securing career placements. Alumni have found positions in prominent companies, including major hospitals, research centers, and pharmaceutical firms. The Society also collaborates with Dibrugarh University's Placement Cell to support students in their job search."
           />
         </Col>
       </Row>
