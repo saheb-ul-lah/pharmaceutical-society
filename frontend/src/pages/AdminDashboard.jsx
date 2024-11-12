@@ -1,545 +1,470 @@
-import React, { useState } from 'react'
-import { Bell, ChevronDown, Search, Home, Users, FileText, ClipboardList, BarChart2, Settings, LogOut, Edit, Eye, Trash } from 'lucide-react'
-import { Container, Navbar, Nav, Card, Button, InputGroup, FormControl, OverlayTrigger, Tooltip, Table, Badge, Row, Col, Form } from 'react-bootstrap'
-import { AreaChart, Area, BarChart, Bar, PieChart, Pie, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts'
+import React, { useState, useEffect } from 'react';
 
-const areaChartData = [
-  { name: 'Jan', uv: 4000 },
-  { name: 'Feb', uv: 3000 },
-  { name: 'Mar', uv: 2000 },
-  { name: 'Apr', uv: 2780 },
-  { name: 'May', uv: 1890 },
-  { name: 'Jun', uv: 2390 },
-]
+// Icons (assuming you're using a library like react-icons)
+import { FaBell, FaSearch, FaChevronDown, FaHome, FaUsers, FaFileAlt, FaSignOutAlt, FaTrash, FaEye, FaEdit, FaPlus, FaBars } from 'react-icons/fa';
 
-const barChartData = [
-  { name: 'Event A', participants: 400 },
-  { name: 'Event B', participants: 300 },
-  { name: 'Event C', participants: 200 },
-  { name: 'Event D', participants: 278 },
-  { name: 'Event E', participants: 189 },
-]
+const navItems = [
+  { icon: FaHome, label: 'Dashboard' },
+  { icon: FaUsers, label: 'Alumni' },
+  { icon: FaUsers, label: 'Students' },
+  { icon: FaFileAlt, label: 'Posts' },
+  { icon: FaFileAlt, label: 'Queries' },
+];
 
-const userTypeData = [
-  { name: 'New Users', value: 400 },
-  { name: 'Returning Users', value: 300 },
-  { name: 'Inactive Users', value: 200 },
-]
+const quickStats = [
+  { label: 'Active Users', value: 1234, change: 5.6 },
+  { label: 'New Registrations', value: 567, change: -2.3 },
+  { label: 'Upcoming Events', value: 12, change: 10.5 },
+  { label: 'Open Tickets', value: 89, change: -7.8 },
+];
 
-const users = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'Active' },
-  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Viewer', status: 'Inactive' },
-]
+const alumni = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', passingYear: 2021, status: 'Active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', passingYear: 2022, status: 'Active' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', passingYear: 2016, status: 'Inactive' },
+];
+
+const students = [
+  { id: 1, name: 'Alice Brown', email: 'alice@example.com', graduationYear: 2024, status: 'Active' },
+  { id: 2, name: 'Charlie Davis', email: 'charlie@example.com', graduationYear: 2025, status: 'Active' },
+  { id: 3, name: 'Eva Green', email: 'eva@example.com', graduationYear: 2023, status: 'Inactive' },
+];
 
 const posts = [
   { id: 1, title: 'First Blog Post', author: 'John Doe', dateCreated: '2023-05-01', status: 'Published' },
   { id: 2, title: 'Upcoming Events', author: 'Jane Smith', dateCreated: '2023-05-05', status: 'Draft' },
   { id: 3, title: 'New Product Announcement', author: 'Bob Johnson', dateCreated: '2023-05-10', status: 'Published' },
-]
+];
 
-const forms = [
-  { id: 1, title: 'Contact Form', submissions: 150, dateCreated: '2023-04-15' },
-  { id: 2, title: 'Event Registration', submissions: 75, dateCreated: '2023-04-20' },
-  { id: 3, title: 'Feedback Survey', submissions: 200, dateCreated: '2023-04-25' },
-]
+const queries = [
+  { id: 1, title: 'Admission Query', author: 'Prospective Student', dateCreated: '2023-05-15', status: 'Open' },
+  { id: 2, title: 'Course Information', author: 'Current Student', dateCreated: '2023-05-18', status: 'Closed' },
+  { id: 3, title: 'Alumni Event', author: 'Alumni Member', dateCreated: '2023-05-20', status: 'In Progress' },
+];
 
-export default function AdminDashboard() {
-  const [activeNavItem, setActiveNavItem] = useState('Dashboard')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [sortColumn, setSortColumn] = useState('name')
-  const [sortDirection, setSortDirection] = useState('asc')
-  const [timeRange, setTimeRange] = useState('monthly')
+const AdminDashboard = () => {
+  const [activeNavItem, setActiveNavItem] = useState('Dashboard');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [filteredData, setFilteredData] = useState({
+    alumni: alumni,
+    students: students,
+    posts: posts,
+    queries: queries
+  });
+  const [isContentVisible, setIsContentVisible] = useState(true);
 
-  const navItems = [
-    { icon: <Home />, label: 'Dashboard' },
-    { icon: <Users />, label: 'Users' },
-    { icon: <FileText />, label: 'Posts' },
-    { icon: <ClipboardList />, label: 'Forms' },
-    { icon: <BarChart2 />, label: 'Analytics' },
-    { icon: <Settings />, label: 'Settings' },
-  ]
+  useEffect(() => {
+    const filterData = () => {
+      setFilteredData({
+        alumni: alumni.filter(item => 
+          Object.values(item).some(val => 
+            val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        ),
+        students: students.filter(item => 
+          Object.values(item).some(val => 
+            val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        ),
+        posts: posts.filter(item => 
+          Object.values(item).some(val => 
+            val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        ),
+        queries: queries.filter(item => 
+          Object.values(item).some(val => 
+            val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        )
+      });
+    };
 
-  const quickStats = [
-    { label: 'Active Users', value: Math.floor(Math.random() * 1000), change: Math.floor(Math.random() * 100) - 50 },
-    { label: 'New Registrations', value: Math.floor(Math.random() * 1000), change: Math.floor(Math.random() * 100) - 50 },
-    { label: 'Upcoming Events', value: Math.floor(Math.random() * 1000), change: Math.floor(Math.random() * 100) - 50 },
-    { label: 'Open Tickets', value: Math.floor(Math.random() * 1000), change: Math.floor(Math.random() * 100) - 50 },
-  ]
+    filterData();
+  }, [searchTerm]);
 
-  const quickActions = ['Add User', 'Create Post', 'Review Form', 'Generate Report']
+  const toggleSidebar = () => {
+    setIsSidebarVisible(!isSidebarVisible);
+  };
 
-  const handleSort = (column) => {
-    if (column === sortColumn) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
-    } else {
-      setSortColumn(column)
-      setSortDirection('asc')
-    }
-  }
-
-  const sortedItems = (items) => {
-    return [...items].sort((a, b) => {
-      if (a[sortColumn] < b[sortColumn]) return sortDirection === 'asc' ? -1 : 1
-      if (a[sortColumn] > b[sortColumn]) return sortDirection === 'asc' ? 1 : -1
-      return 0
-    })
-  }
-
-  const filteredItems = (items) => {
-    return sortedItems(items).filter(item =>
-      Object.values(item).some(value => 
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    )
-  }
+  const changeContent = (newActiveNavItem) => {
+    setIsContentVisible(false);
+    setTimeout(() => {
+      setActiveNavItem(newActiveNavItem);
+      setIsContentVisible(true);
+    }, 300);
+  };
 
   const renderDashboard = () => (
-    <>
-      <h1 className="text-primary mb-4">Dashboard</h1>
-      <Row className="g-4 mb-4">
+    <div style={styles.dashboardContainer}>
+      <h1 style={styles.heading}>Dashboard</h1>
+      <div style={styles.statsGrid}>
         {quickStats.map((stat) => (
-          <Col key={stat.label} xs={12} md={6} lg={3}>
-            <Card className="h-100 border-primary">
-              <Card.Body>
-                <Card.Title className="text-muted">{stat.label}</Card.Title>
-                <Card.Text className="h4 text-primary">{stat.value}</Card.Text>
-                <Card.Text className={`small ${stat.change >= 0 ? 'text-success' : 'text-danger'}`}>
-                  {stat.change >= 0 ? '+' : ''}{stat.change}% from last month
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+          <div key={stat.label} style={styles.statCard}>
+            <h3 style={styles.statLabel}>{stat.label}</h3>
+            <p style={styles.statValue}>{stat.value.toLocaleString()}</p>
+            <p style={{...styles.statChange, color: stat.change >= 0 ? 'green' : 'red'}}>
+              {stat.change >= 0 ? '+' : ''}{stat.change}% from last month
+            </p>
+          </div>
         ))}
-      </Row>
-      <Row className="g-4 mb-4">
-        <Col xs={12} lg={6}>
-          <Card className="h-100 border-primary">
-            <Card.Header className="text-primary">User Engagement</Card.Header>
-            <Card.Body>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={areaChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <RechartsTooltip />
-                  <Area type="monotone" dataKey="uv" stroke="#007bff" fill="#007bff" fillOpacity={0.3} />
-                </AreaChart>
-              </ResponsiveContainer>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} lg={6}>
-          <Card className="h-100 border-primary">
-            <Card.Header className="text-primary">Event Participation</Card.Header>
-            <Card.Body>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={barChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <RechartsTooltip />
-                  <Bar dataKey="participants" fill="#007bff" />
-                </BarChart>
-              </ResponsiveContainer>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Card className="border-primary">
-        <Card.Header className="text-primary">Quick Actions</Card.Header>
-        <Card.Body>
-          <Row className="g-2">
-            {quickActions.map((action) => (
-              <Col key={action} xs={12} sm={6} md={3}>
-                <Button variant="primary" className="w-100">{action}</Button>
-              </Col>
+      </div>
+    </div>
+  );
+
+  const renderTable = (data, columns) => (
+    <table style={styles.table}>
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th key={column.key} style={styles.tableHeader}>{column.label}</th>
+          ))}
+          <th style={styles.tableHeader}>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item) => (
+          <tr key={item.id}>
+            {columns.map((column) => (
+              <td key={column.key} style={styles.tableCell}>
+                {column.key === 'status' ? (
+                  <span style={{...styles.badge, backgroundColor: item[column.key] === 'Active' || item[column.key] === 'Published' || item[column.key] === 'Open' ? '#4CAF50' : '#9E9E9E'}}>
+                    {item[column.key]}
+                  </span>
+                ) : (
+                  item[column.key]
+                )}
+              </td>
             ))}
-          </Row>
-        </Card.Body>
-      </Card>
-    </>
-  )
-
-  const renderUsers = () => (
-    <>
-      <h1 className="text-primary mb-4">User Management</h1>
-      <div className="mb-3 d-flex justify-content-between align-items-center">
-        <InputGroup className="w-auto">
-          <InputGroup.Text><Search /></InputGroup.Text>
-          <FormControl
-            placeholder="Search users..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </InputGroup>
-        <Button variant="primary">Add User</Button>
-      </div>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th onClick={() => handleSort('name')}>User Name {sortColumn === 'name' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('email')}>Email {sortColumn === 'email' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('role')}>Role {sortColumn === 'role' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('status')}>Status {sortColumn === 'status' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th>Actions</th>
+            <td style={styles.tableCell}>
+              <div style={styles.actionButtons}>
+                <button style={styles.actionButton}><FaEye /></button>
+                <button style={styles.actionButton}><FaEdit /></button>
+                <button style={styles.actionButton}><FaTrash /></button>
+              </div>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {filteredItems(users).map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>
-                <Badge bg={user.status === 'Active' ? 'success' : 'danger'}>
-                  {user.status}
-                </Badge>
-              </td>
-              <td>
-                <Button variant="outline-primary" size="sm" className="me-2">
-                  <Edit size={16} />
-                </Button>
-                <Button variant="outline-danger" size="sm">
-                  <Trash size={16} />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </>
-  )
-
-  const renderPosts = () => (
-    <>
-      <h1 className="text-primary mb-4">Posts Management</h1>
-      <div className="mb-3 d-flex justify-content-between align-items-center">
-        <InputGroup className="w-auto">
-          <InputGroup.Text><Search /></InputGroup.Text>
-          <FormControl
-            placeholder="Search posts..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </InputGroup>
-        <Button variant="primary">Create New Post</Button>
-      </div>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th onClick={() => handleSort('title')}>Post Title {sortColumn === 'title' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('author')}>Author {sortColumn === 'author' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('dateCreated')}>Date Created {sortColumn === 'dateCreated' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('status')}>Status {sortColumn === 'status' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredItems(posts).map((post) => (
-            <tr key={post.id}>
-              <td>{post.title}</td>
-              <td>{post.author}</td>
-              <td>{post.dateCreated}</td>
-              <td>
-                <Badge bg={post.status === 'Published' ? 'success' : 'warning'}>
-                  {post.status}
-                </Badge>
-              </td>
-              <td>
-                <Button variant="outline-primary" size="sm" className="me-2">
-                  <Eye size={16} />
-                </Button>
-                <Button variant="outline-secondary" size="sm" className="me-2">
-                  <Edit size={16} />
-                </Button>
-                <Button variant="outline-danger" size="sm">
-                  <Trash size={16} />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </>
-  )
-
-  const renderForms = () => (
-    <>
-      <h1 className="text-primary mb-4">Forms Management</h1>
-      <div className="mb-3 d-flex justify-content-between align-items-center">
-        <InputGroup className="w-auto">
-          <InputGroup.Text><Search /></InputGroup.Text>
-          <FormControl
-            placeholder="Search forms..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </InputGroup>
-        <Button variant="primary">Create New Form</Button>
-      </div>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th onClick={() => handleSort('title')}>Form Title {sortColumn === 'title' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('submissions')}>Submissions {sortColumn === 'submissions' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th onClick={() => handleSort('dateCreated')}>Date Created {sortColumn === 'dateCreated' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredItems(forms).map((form) => (
-            <tr key={form.id}>
-              <td>{form.title}</td>
-              <td>{form.submissions}</td>
-              <td>{form.dateCreated}</td>
-              <td>
-                <Button variant="outline-primary" size="sm" className="me-2">
-                  <Eye size={16} />
-                </Button>
-                <Button variant="outline-secondary" size="sm" className="me-2">
-                  <Edit size={16} />
-                </Button>
-                <Button variant="outline-danger" size="sm">
-                  <Trash size={16} />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </>
-  )
-
-  const renderAnalytics = () => (
-    <>
-      <h1 className="text-primary mb-4">Analytics</h1>
-      <Form.Group className="mb-4">
-        <Form.Label>Time Range:</Form.Label>
-        <Form.Select value={timeRange} onChange={(e) => setTimeRange(e.target.value)}>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </Form.Select>
-      </Form.Group>
-      <Row className="g-4">
-        <Col xs={12} lg={6}>
-          <Card className="h-100 border-primary">
-            <Card.Header className="text-primary">User Engagement</Card.Header>
-            <Card.Body>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={areaChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <RechartsTooltip />
-                  <Legend />
-                  <Area type="monotone" dataKey="uv" name="Users" stroke="#8884d8" fill="#8884d8" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} lg={6}>
-          <Card className="h-100 border-primary">
-            <Card.Header className="text-primary">Event Participation</Card.Header>
-            <Card.Body>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={barChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <RechartsTooltip />
-                  <Legend />
-                  <Bar dataKey="participants" name="Participants" fill="#82ca9d" />
-                </BarChart>
-              </ResponsiveContainer>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12}>
-          <Card className="border-primary">
-            <Card.Header className="text-primary">User Types</Card.Header>
-            <Card.Body>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie dataKey="value" data={userTypeData} fill="#8884d8" label />
-                  <RechartsTooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </>
-  )
-
-  const renderSettings = () => (
-    <>
-      <h1 className="text-primary mb-4">Settings</h1>
-      <Row className="g-4">
-        <Col xs={12} lg={6}>
-          <Card className="border-primary">
-            <Card.Header className="text-primary">General Settings</Card.Header>
-            <Card.Body>
-              <Form>
-                <Form.Group className="mb-3">
-                  <Form.Label>Site Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter site name" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Site Description</Form.Label>
-                  <Form.Control as="textarea" rows={3} placeholder="Enter site description" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Logo</Form.Label>
-                  <Form.Control type="file" />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  Save Changes
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} lg={6}>
-          <Card className="border-primary">
-            <Card.Header className="text-primary">User Permissions</Card.Header>
-            <Card.Body>
-              <Form>
-                <Form.Group className="mb-3">
-                  <Form.Check 
-                    type="switch"
-                    id="allow-user-registration"
-                    label="Allow User Registration"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Check 
-                    type="switch"
-                    id="require-email-verification"
-                    label="Require Email Verification"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Default User Role</Form.Label>
-                  <Form.Select>
-                    <option>Subscriber</option>
-                    <option>Contributor</option>
-                    <option>Author</option>
-                    <option>Editor</option>
-                  </Form.Select>
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  Save Changes
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12}>
-          <Card className="border-primary">
-            <Card.Header className="text-primary">Email Settings</Card.Header>
-            <Card.Body>
-              <Form>
-                <Form.Group className="mb-3">
-                  <Form.Label>SMTP Host</Form.Label>
-                  <Form.Control type="text" placeholder="Enter SMTP host" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>SMTP Port</Form.Label>
-                  <Form.Control type="number" placeholder="Enter SMTP port" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>SMTP Username</Form.Label>
-                  <Form.Control type="text" placeholder="Enter SMTP username" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>SMTP Password</Form.Label>
-                  <Form.Control type="password" placeholder="Enter SMTP password" />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  Save Changes
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </>
-  )
+        ))}
+      </tbody>
+    </table>
+  );
 
   const renderContent = () => {
     switch (activeNavItem) {
       case 'Dashboard':
-        return renderDashboard()
-      case 'Users':
-        return renderUsers()
+        return renderDashboard();
+      case 'Alumni':
+        return (
+          <div style={styles.contentContainer}>
+            <h1 style={styles.heading}>Alumni Management</h1>
+            {renderTable(filteredData.alumni, [
+              { key: 'name', label: 'Name' },
+              { key: 'email', label: 'Email' },
+              { key: 'passingYear', label: 'Passing Year' },
+              { key: 'status', label: 'Status' },
+            ])}
+          </div>
+        );
+      case 'Students':
+        return (
+          <div style={styles.contentContainer}>
+            <h1 style={styles.heading}>Student Management</h1>
+            {renderTable(filteredData.students, [
+              { key: 'name', label: 'Name' },
+              { key: 'email', label: 'Email' },
+              { key: 'graduationYear', label: 'Graduation Year' },
+              { key: 'status', label: 'Status' },
+            ])}
+          </div>
+        );
       case 'Posts':
-        return renderPosts()
-      case 'Forms':
-        return renderForms()
-      case 'Analytics':
-        return renderAnalytics()
-      case 'Settings':
-        return renderSettings()
+        return (
+          <div style={styles.contentContainer}>
+            <h1 style={styles.heading}>Posts Management</h1>
+            {renderTable(filteredData.posts, [
+              { key: 'title', label: 'Title' },
+              { key: 'author', label: 'Author' },
+              { key: 'dateCreated', label: 'Date Created' },
+              { key: 'status', label: 'Status' },
+            ])}
+          </div>
+        );
+      case 'Queries':
+        return (
+          <div style={styles.contentContainer}>
+            <h1 style={styles.heading}>Queries Management</h1>
+            {renderTable(filteredData.queries, [
+              { key: 'title', label: 'Title' },
+              { key: 'author', label: 'Author' },
+              { key: 'dateCreated', label: 'Date Created' },
+              { key: 'status', label: 'Status' },
+            ])}
+          </div>
+        );
       default:
-        return renderDashboard()
+        return renderDashboard();
     }
-  }
+  };
 
   return (
-    <Container fluid className="d-flex h-100 bg-light p-0">
-      <Navbar bg="primary" variant="dark" className="flex-column p-3 text-white" style={{ minWidth: '250px' }}>
-        <Navbar.Brand className="text-white fs-4 mb-4">Pharma Society</Navbar.Brand>
-        <Nav className="flex-column mt-4">
-          {navItems.map(({ icon, label }) => (
-            <Nav.Link
-              key={label}
-              className={`d-flex align-items-center text-white py-2 ${activeNavItem === label ? 'bg-warning rounded' : ''}`}
-              onClick={() => setActiveNavItem(label)}
-            >
-              {icon}
-              <span className="ms-2">{label}</span>
-            </Nav.Link>
-          ))}
-        </Nav>
-        <Nav className="mt-auto">
-          <Button variant="outline-light" className="w-100 d-flex align-items-center text-white">
-            <LogOut className="me-2" /> Logout
-          </Button>
-        </Nav>
-      </Navbar>
+    <div style={styles.container}>
+      {/* Sidebar */}
+      <aside style={{...styles.sidebar, width: isSidebarVisible ? '250px' : '0'}}>
+        <div style={styles.sidebarContent}>
+          <h2 style={styles.sidebarTitle}>Pharma Society</h2>
+          <nav style={styles.nav}>
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                style={{
+                  ...styles.navButton,
+                  backgroundColor: activeNavItem === item.label ? '#f0f0f0' : 'transparent',
+                }}
+                onClick={() => changeContent(item.label)}
+              >
+                <item.icon style={styles.navIcon} />
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <button style={styles.logoutButton}>
+            <FaSignOutAlt style={styles.navIcon} /> Logout
+          </button>
+        </div>
+      </aside>
 
-      <Container className="flex-grow-1 p-0">
-        <Navbar bg="light" variant="light" className="d-flex justify-content-between p-3 border-bottom">
-          <div className="d-flex">
-            <InputGroup className="me-3">
-              <InputGroup.Text><Search className="text-muted" /></InputGroup.Text>
-              <FormControl placeholder="Search..." className="border-secondary" />
-            </InputGroup>
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip id="notification-tooltip">You have 3 new notifications</Tooltip>}
-            >
-              <Button variant="outline-primary" className="position-relative me-3">
-                <Bell className="text-primary" />
-                <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">3</span>
-              </Button>
-            </OverlayTrigger>
-            <Button variant="outline-primary" className="d-flex align-items-center">
-              <img src="/placeholder.svg" alt="Profile" className="rounded-circle me-2" style={{ width: '32px', height: '32px' }} />
-              <span>John Doe</span>
-              <ChevronDown className="ms-2" />
-            </Button>
+      {/* Main content */}
+      <div style={styles.mainContent}>
+        {/* Header */}
+        <header style={styles.header}>
+          <div style={styles.headerLeft}>
+            <button style={styles.sidebarToggle} onClick={toggleSidebar}>
+              <FaBars />
+            </button>
+            <input
+              type="search"
+              placeholder="Search..."
+              style={styles.searchInput}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-        </Navbar>
+          <div style={styles.headerRight}>
+            <button style={styles.iconButton}><FaBell /></button>
+            <div style={styles.userMenu}>
+              <img src="/placeholder.svg" alt="User" style={styles.avatar} />
+              <span style={styles.userName}>John Doe</span>
+              <FaChevronDown style={styles.chevronIcon} />
+            </div>
+          </div>
+        </header>
 
-        <Container fluid className="p-4 bg-white">
+        {/* Page content */}
+        <main style={{...styles.pageContent, ...(isContentVisible ? styles.contentVisible : styles.contentHidden)}}>
           {renderContent()}
-        </Container>
-      </Container>
-    </Container>
-  )
-}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    height: '100vh',
+    overflow: 'hidden',
+  },
+  sidebar: {
+    backgroundColor: '#DDDDDD',
+    borderRight: '1px solid #e0e0e0',
+    transition: 'width 0.3s ease',
+    overflow: 'hidden',
+  },
+  sidebarContent: {
+    width: '250px',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '20px',
+  },
+  sidebarTitle: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '30px',
+  },
+  nav: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+  },
+  navButton: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+    border: 'none',
+    background: 'none',
+    cursor: 'pointer',
+    fontSize: '16px',
+    textAlign: 'left',
+    color:'#333'
+  },
+  navIcon: {
+    marginRight: '10px',
+  },
+  logoutButton: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px',
+    border: 'none',
+    background: 'none',
+    cursor: 'pointer',
+    fontSize: '16px',
+    color: '#f44336',
+  },
+  mainContent: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px 20px',
+    borderBottom: '1px solid #e0e0e0',
+  },
+  headerLeft: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  sidebarToggle: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    cursor: 'pointer',
+    marginRight: '15px',
+  },
+  searchInput: {
+    padding: '8px 12px',
+    border: '1px solid #e0e0e0',
+    borderRadius: '4px',
+    fontSize: '14px',
+  },
+  headerRight: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  iconButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    cursor: 'pointer',
+    marginRight: '15px',
+  },
+  userMenu: {
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+  },
+  avatar: {
+    width: '32px',
+    height: '32px',
+    borderRadius: '50%',
+    marginRight: '10px',
+  },
+  userName: {
+    fontSize: '14px',
+    marginRight: '5px',
+  },
+  chevronIcon: {
+    fontSize: '12px',
+  },
+  pageContent: {
+    flex: 1,
+    padding: '20px',
+    overflowY: 'auto',
+    transition: 'opacity 0.3s ease, transform 0.3s ease',
+  },
+  contentVisible: {
+    opacity: 1,
+    transform: 'translateY(0)',
+  },
+  contentHidden: {
+    opacity: 0,
+    transform: 'translateY(20px)',
+  },
+  dashboardContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+  },
+  heading: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+  },
+  statsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: '20px',
+  },
+  statCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: '8px',
+    padding: '20px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  },
+  statLabel: {
+    fontSize: '14px',
+    color: '#666',
+    marginBottom: '5px',
+  },
+  statValue: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '5px',
+  },
+  statChange: {
+    fontSize: '12px',
+  },
+  contentContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  },
+  tableHeader: {
+    padding: '12px',
+    textAlign: 'left',
+    borderBottom: '2px solid #e0e0e0',
+    fontWeight: 'bold',
+  },
+  tableCell: {
+    padding: '12px',
+    borderBottom: '1px solid #e0e0e0',
+  },
+  badge: {
+    padding: '4px 8px',
+    borderRadius: '12px',
+    fontSize: '12px',
+    color: '#ffffff',
+  },
+  actionButtons: {
+    display: 'flex',
+    gap: '5px',
+  },
+  actionButton: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '16px',
+  },
+};
+
+export default AdminDashboard;
